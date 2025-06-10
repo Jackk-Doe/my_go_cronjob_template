@@ -1,9 +1,9 @@
-name: On Git tag - Build and push Docker image to private Docker Hub
+name: On Git push - Build and push Docker image to private Docker Hub
 
 on:
   push :
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   build-and-push-docker-image:
@@ -13,8 +13,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Test print tag
-      run: echo "CURRENT TAG IS -> ${{ github.ref_name }}"
+    # - name: Test print tag
+    #   run: echo "CURRENT TAG IS -> ${{ github.ref_name }}"
 
     - name: Set up Docker Buildx
       id: buildx
@@ -34,12 +34,12 @@ jobs:
       with:
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/<APP_IMAGE_NAME>:${{ github.ref_name }}
+          ${{ secrets.DOCKER_USERNAME }}/<APP_IMAGE_NAME>:${{ github.sha }}
           ${{ secrets.DOCKER_USERNAME }}/<APP_IMAGE_NAME>:latest
         build-args: |
           COMMIT_SHA=${{ github.sha }}
           BRANCH=${{ github.ref }}
           BUILD_DATE=${{ env.DATE }}
-          APP_VERSION=${{ github.ref_name }}
+          APP_VERSION=${{ github.sha }}
         context: .
         file: ./Dockerfile
