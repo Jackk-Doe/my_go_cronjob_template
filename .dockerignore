@@ -1,0 +1,16 @@
+.git
+.gitignore
+*.md
+
+vendor/
+
+.env
+.env.example
+
+Dockerfile
+Dockerfile-tools
+docker-compose.y*ml
+
+MY_NOTE.txt
+build/*
+MY_NOTE.txt
