@@ -13,6 +13,7 @@ Example of logging in JSON format:
 	"msg": "[START] CRON Job: Checking health claim which real document is not yet upload and created_date is already 14 days or more...",
 	"time": "2021-08-25T09:00:00+07:00",
 	"id": "f7b3b3b4-0b3b-4b3b-8b3b-0b3b3b3b3b3b",
+	"error": "",
 	"datas": {},
 }
 
@@ -99,11 +100,12 @@ func LogWarn(id, msg string, datas ...interface{}) {
 }
 
 // Display log entry (ERROR) in JSON format
-func LogError(id, msg string, datas ...interface{}) {
+func LogError(id, msg, errMsg string, datas ...interface{}) {
 	if len(datas) > 0 {
 		myLogger.Error(
 			msg,
 			slog.String("id", id),
+			slog.String("error", errMsg),
 			slog.Any("datas", datas[0]),
 		)
 	} else {
